@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class UserPersonalData {
     @Id
     @Column(name="personnelNumber", nullable=false, updatable = false)
-    private Long personnelNumber;
+    private String personnelNumber;
 
     @OneToOne
     @JoinColumn(name = "userId")
