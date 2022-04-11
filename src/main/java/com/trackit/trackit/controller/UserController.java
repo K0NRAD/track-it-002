@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Random;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -19,24 +23,12 @@ public class UserController {
     @Autowired
     private final EmployeeRegisterService employeeRegisterService;
 
-    @GetMapping(path = "api/employee/getEmployeeId")
-    public Long getEmployeeId(
+    @GetMapping(path = "api/employee/loginEmployee")
+    public Employee getEmployeeId(
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "password", required = true) String password
     ) {
-        /*
-        api/employee/getEmployeeId(username, password)
-
-        username & password wrong -- > Null
-        username & password right -- > user_id
-        */
-        Employee employee = employeeLoginService.getUserByUsernameAndPassword(username, password);
-
-        if (employee != null) {
-            return employee.getEmployeeId();
-        } else {
-            return null;
-        }
+        return employeeLoginService.getEmployeeByUsernameAndPassword(username, password);
     }
 
     @GetMapping(path = "api/employee/registerEmployee")
@@ -46,13 +38,10 @@ public class UserController {
             @RequestParam(value = "personnelNumber", required = true) String personnelNumber,
             @RequestParam(value = "firstName", required = true) String firstName,
             @RequestParam(value = "lastName", required = true) String lastName
-    ) {
+    ) throws NoSuchAlgorithmException, InvalidKeySpecException {
         // api/employee/registerEmployee(username, password, personnelNumber, firstName, lastName)
         // returns true if the registration has been successful
         // returns false if the registration has failed
-        // http://localhost:8080/api/employee/registerEmployee?username=%27testUsername%27&password=%27testPassword%27&personnelNumber=%27123456789%27&firstName=%27testFirstName%27&lastName=%27testLastName%27
-
-        boolean registrationStatus = employeeRegisterService.registerNewUser(username, password, personnelNumber, firstName, lastName);
-        return registrationStatus;
+        return employeeRegisterService.registerNewEmployee(username, password, personnelNumber, firstName, lastName);
     }
 }
