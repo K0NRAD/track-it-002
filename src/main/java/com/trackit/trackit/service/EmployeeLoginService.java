@@ -12,9 +12,10 @@ public class EmployeeLoginService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Employee getUserByUsernameAndPassword(String username, String password) {
-        Employee employee = employeeRepository.getUserByUsernameAndPassword(username, password);
+    public Employee getEmployeeByUsernameAndPassword(String username, String password) {
+        username = HashingStaticService.hashString(username);
+        password = HashingStaticService.hashString(password);
 
-        return employee;
+        return employeeRepository.getUserByUsernameAndPassword(username, password);
     }
 }
