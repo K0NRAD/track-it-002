@@ -4,16 +4,25 @@ import com.trackit.trackit.model.Employee;
 import com.trackit.trackit.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Random;
+import java.util.Optional;
 
 @Service
-public class EmployeeRegisterService {
+public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeRegisterService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository){
         this.employeeRepository = employeeRepository;
+    }
+
+    public Optional<Employee> getEmployeeDataByEmployeeId(Long employeeId) {
+        return employeeRepository.findById(employeeId);
+    }
+
+    public Employee getEmployeeByUsernameAndPassword(String username, String password) {
+        username = HashingStaticService.hashString(username);
+        password = HashingStaticService.hashString(password);
+
+        return employeeRepository.getUserByUsernameAndPassword(username, password);
     }
 
     public boolean registerNewEmployee(String username, String password, String personnelNumber, String firstName, String lastName) {
