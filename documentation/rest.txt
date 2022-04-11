@@ -1,0 +1,19 @@
+Employee
+
+api/employee/loginEmployee(username, password)
+- return user that has the given username and password if they are right
+- return null if the username and password are wrong
+api/employee/registerEmployee(username, password, personnelNumber, firstName, lastName)
+- return true if registration was successful
+- return false otherwise
+api/employee/getData(employeeId)
+
+dailyWorkingHours
+
+api/dailyworkinghours/setCheckIn(employeeId, checkInTime)
+api/dailyworkinghours/setCheckOut(dailyWorkingsHoursId, employeeId, checkOutTime)
+
+dailyBreakTimes
+
+api/dailybreaktimes/breakCheckIn(dailyWorkingsHoursId, checkInTime)
+api/dailybreaktimes/breakCheckOut(dayBreakTimeId, dailyWorkingsHoursId, checkOutTime)
