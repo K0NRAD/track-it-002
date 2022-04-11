@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class EmployeeController {
     @Autowired
     private final EmployeeService employeeService;
 

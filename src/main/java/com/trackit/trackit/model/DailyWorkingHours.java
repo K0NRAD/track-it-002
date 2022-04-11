@@ -3,8 +3,8 @@ package com.trackit.trackit.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "DailyWorkingHours")
@@ -20,26 +20,26 @@ public class DailyWorkingHours {
     private Long dailyWorkingHoursId;
 
     @ManyToOne
-    @JoinColumn(name = "employeeId")
+    @JoinColumn(name = "employeeId", nullable = false, updatable = false)
     @ToString.Exclude
     private Employee employee;
 
     @Column(name = "date", nullable = false, updatable = false)
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "totalDayWorkTime")
-    private Time totalDayWorkTime;
+    private LocalTime totalDayWorkTime;
 
     @Column(name = "totalBreakTime")
-    private Time totalBreakTime;
+    private LocalTime totalBreakTime;
 
     @Column(name = "checkIn", nullable = false, updatable = false)
-    private Time checkIn;
+    private LocalTime checkIn;
 
     @Column(name = "checkOut")
-    private Time checkOut;
+    private LocalTime checkOut;
 
-    public DailyWorkingHours(Employee employee, Date date, Time checkIn) {
+    public DailyWorkingHours(Employee employee, LocalDate date, LocalTime checkIn) {
         this.employee = employee;
         this.date = date;
         this.checkIn = checkIn;

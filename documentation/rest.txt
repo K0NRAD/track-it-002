@@ -12,6 +12,7 @@ api/employee/getEmployeeData(employeeId)
 dailyWorkingHours
 
 api/dailyworkinghours/setCheckIn(employeeId, checkInTime)
+api/dailyworkinghours/getDailyWorkingHoursByEmployeeIdAndDate(employeeId, date)
 api/dailyworkinghours/setCheckOut(dailyWorkingsHoursId, employeeId, checkOutTime)
 
 dailyBreakTimes
