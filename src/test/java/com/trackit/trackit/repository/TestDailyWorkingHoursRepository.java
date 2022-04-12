@@ -1,5 +1,6 @@
 package com.trackit.trackit.repository;
 
+import com.trackit.trackit.model.DailyWorkingHours;
 import com.trackit.trackit.model.Employee;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterAll;
@@ -15,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -25,11 +27,14 @@ import static com.trackit.trackit.TestData.breakTime;
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TestEmployeeRepository {
+public class TestDailyWorkingHoursRepository {
     /* ------------------------------------------- REPOSITORIES -------------------------------------------- */
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private DailyWorkingHoursRepository dailyWorkingHoursRepository;
 
     /* ------------------------------------------- REPOSITORIES -------------------------------------------- */
 
@@ -65,11 +70,13 @@ public class TestEmployeeRepository {
     @BeforeAll
     public void setUp(){
         employeeRepository.save(employee);
+        dailyWorkingHoursRepository.save(dailyWorkingHours);
     }
 
     @Transactional
     @AfterAll
     public void cleanUp(){
+        dailyWorkingHoursRepository.deleteAll();
         employeeRepository.deleteAll();
     }
 
@@ -79,19 +86,47 @@ public class TestEmployeeRepository {
 
     @Test
     public void testSave(){
-        Employee testEmployee = employeeRepository.getById(employee.getEmployeeId());
-        boolean testEmployeeExists = testEmployee.getEmployeeId().equals(employee.getEmployeeId());
+        DailyWorkingHours testDailyWorkingHours = dailyWorkingHoursRepository.getById(dailyWorkingHours.getDailyWorkingHoursId());
 
-        assertThat(testEmployeeExists).isTrue();
+        boolean dailyWorkingHoursExists = testDailyWorkingHours.getDailyWorkingHoursId().equals(dailyWorkingHours.getDailyWorkingHoursId());
+
+        assertThat(dailyWorkingHoursExists).isTrue();
     }
 
     @Test
-    public void testGetUserByUsernameAndPassword(){
-        Employee testEmployee = employeeRepository.getUserByUsernameAndPassword(employee.getUsername(), employee.getPassword());
+    public void testGetDailyWorkingHoursByEmployeeIdAndDate(){
+        DailyWorkingHours testDailyWorkingHours = dailyWorkingHoursRepository.getDailyWorkingHoursByEmployeeIdAndDate(employee.getEmployeeId(), LocalDate.now()) ;
 
-        boolean testEmployeeExists = testEmployee.getEmployeeId().equals(employee.getEmployeeId());
+        boolean dailyWorkingHoursExists = testDailyWorkingHours.getDailyWorkingHoursId().equals(dailyWorkingHours.getDailyWorkingHoursId());
 
-        assertThat(testEmployeeExists).isTrue();
+        assertThat(dailyWorkingHoursExists).isTrue();
+    }
+
+    @Test
+    public void testUpdateCheckOutTotalBreakTimeTotalWorkTime(){
+        LocalTime checkOutTime = LocalTime.of(16, 30, 0);
+        LocalTime totalBreakTime = LocalTime.of(7, 0, 0);
+        LocalTime totalDayWorkTime = LocalTime.of(1, 0, 0);
+
+        dailyWorkingHoursRepository.updateCheckOutTotalBreakTimeTotalWorkTime(
+                checkOutTime,
+                totalBreakTime,
+                totalDayWorkTime,
+                dailyWorkingHours.getDailyWorkingHoursId()
+        );
+
+        DailyWorkingHours testDailyWorkingHours = dailyWorkingHoursRepository.getById(dailyWorkingHours.getDailyWorkingHoursId());
+
+        boolean testDailyWorkingHoursExists = testDailyWorkingHours.getDailyWorkingHoursId().equals(dailyWorkingHours.getDailyWorkingHoursId());
+        boolean checkOutTimeChangedProperly = testDailyWorkingHours.getCheckOut().equals(checkOutTime);
+        boolean totalBreakTimeChangedProperly = testDailyWorkingHours.getTotalBreakTime().equals(totalBreakTime);
+        boolean totalDayWorkTimeChangedProperly = testDailyWorkingHours.getTotalDayWorkTime().equals(totalDayWorkTime);
+
+
+        assertThat(testDailyWorkingHoursExists).isTrue();
+        assertThat(checkOutTimeChangedProperly).isTrue();
+        assertThat(totalBreakTimeChangedProperly).isTrue();
+        assertThat(totalDayWorkTimeChangedProperly).isTrue();
     }
 
     /* ------------------------------------------- TESTS -------------------------------------------- */

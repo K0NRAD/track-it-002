@@ -1,5 +1,7 @@
 package com.trackit.trackit.repository;
 
+import com.trackit.trackit.model.DailyBreakTimes;
+import com.trackit.trackit.model.DailyWorkingHours;
 import com.trackit.trackit.model.Employee;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterAll;
@@ -15,7 +17,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static com.trackit.trackit.TestData.employee;
@@ -25,13 +29,30 @@ import static com.trackit.trackit.TestData.breakTime;
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TestEmployeeRepository {
+public class TestDailyBreakTimesRepository {
     /* ------------------------------------------- REPOSITORIES -------------------------------------------- */
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private DailyWorkingHoursRepository dailyWorkingHoursRepository;
+
+    @Autowired
+    private DailyBreakTimesRepository dailyBreakTimesRepository;
+
+
     /* ------------------------------------------- REPOSITORIES -------------------------------------------- */
+
+    /* ------------------------------------------- ADDITIONAL TEST DATA -------------------------------------------- */
+
+    DailyBreakTimes secondBreakTime = new DailyBreakTimes(
+            dailyWorkingHours,
+            LocalTime.of(14, 0, 0)
+    );
+
+    /* ------------------------------------------- ADDITIONAL TEST DATA -------------------------------------------- */
+
 
     /* ------------------------------------------- TEST CONTAINERS SETUP -------------------------------------------- */
 
@@ -63,13 +84,18 @@ public class TestEmployeeRepository {
 
     @Transactional
     @BeforeAll
-    public void setUp(){
+    public void setUp() {
         employeeRepository.save(employee);
+        dailyWorkingHoursRepository.save(dailyWorkingHours);
+        dailyBreakTimesRepository.save(breakTime);
+        dailyBreakTimesRepository.save(secondBreakTime);
     }
 
     @Transactional
     @AfterAll
-    public void cleanUp(){
+    public void cleanUp() {
+        dailyBreakTimesRepository.deleteAll();
+        dailyWorkingHoursRepository.deleteAll();
         employeeRepository.deleteAll();
     }
 
@@ -79,19 +105,61 @@ public class TestEmployeeRepository {
 
     @Test
     public void testSave(){
-        Employee testEmployee = employeeRepository.getById(employee.getEmployeeId());
-        boolean testEmployeeExists = testEmployee.getEmployeeId().equals(employee.getEmployeeId());
+        DailyBreakTimes testBreakTime = dailyBreakTimesRepository.getById(breakTime.getDailyBreakTimesId());
 
-        assertThat(testEmployeeExists).isTrue();
+        boolean testBreakTimeExists = testBreakTime.getDailyBreakTimesId().equals(breakTime.getDailyBreakTimesId());
+
+        assertThat(testBreakTimeExists).isTrue();
     }
 
     @Test
-    public void testGetUserByUsernameAndPassword(){
-        Employee testEmployee = employeeRepository.getUserByUsernameAndPassword(employee.getUsername(), employee.getPassword());
+    public void testBreakCheckOut(){
+        LocalTime breakCheckOutTime = LocalTime.of(13, 0, 0);
+        dailyBreakTimesRepository.breakCheckOut(
+                breakTime.getDailyBreakTimesId(),
+                breakCheckOutTime
+        );
 
-        boolean testEmployeeExists = testEmployee.getEmployeeId().equals(employee.getEmployeeId());
+        DailyBreakTimes testBreakTime = dailyBreakTimesRepository.getById(breakTime.getDailyBreakTimesId());
 
-        assertThat(testEmployeeExists).isTrue();
+        boolean breakCheckOutTimeChangedProperly = testBreakTime.getBreakCheckOut().equals(breakCheckOutTime);
+
+        assertThat(breakCheckOutTimeChangedProperly).isTrue();
+    }
+
+    @Test
+    public void testGetAllBreaksByDailyWorkingHoursIdAndDate(){
+        // Check out the break times
+        LocalTime breakCheckOutTime1 = LocalTime.of(13, 0, 0);
+        LocalTime breakCheckOutTime2 = LocalTime.of(14, 30, 0);
+
+        dailyBreakTimesRepository.breakCheckOut(
+                breakTime.getDailyBreakTimesId(),
+                breakCheckOutTime1
+        );
+        dailyBreakTimesRepository.breakCheckOut(
+                secondBreakTime.getDailyBreakTimesId(),
+                breakCheckOutTime2
+        );
+
+        // Get the list that needs to be tested
+        List<DailyBreakTimes> dailyBreakTimesList = dailyBreakTimesRepository.getAllBreaksByDailyWorkingHoursIdAndDate(
+            dailyWorkingHours.getDailyWorkingHoursId(),
+                LocalDate.now()
+        );
+
+        // Update break times
+        breakTime = dailyBreakTimesRepository.getById(breakTime.getDailyBreakTimesId());
+        secondBreakTime = dailyBreakTimesRepository.getById(breakTime.getDailyBreakTimesId());
+
+        // Check to see if the list contains the 2 break times
+        boolean firstBreakTimeIsInsideList = dailyBreakTimesList.contains(breakTime);
+        System.out.println(firstBreakTimeIsInsideList);
+        boolean secondBreakTimeIsInsideList = dailyBreakTimesList.contains(secondBreakTime);
+        System.out.println(secondBreakTimeIsInsideList);
+
+        assertThat(firstBreakTimeIsInsideList).isTrue();
+        assertThat(secondBreakTimeIsInsideList).isTrue();
     }
 
     /* ------------------------------------------- TESTS -------------------------------------------- */
