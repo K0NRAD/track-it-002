@@ -54,4 +54,22 @@ public class DailyWorkingHoursController {
             return null;
         }
     }
+
+    @GetMapping(value = "api/dailyworkinghours/setCheckOut")
+    public boolean setCheckOut(
+        @RequestParam(value = "dailyWorkingHoursId") Long dailyWorkingHoursId,
+        @RequestParam(value = "employeeId") Long employeeId,
+        @RequestParam(value = "checkOutTime") String checkOutTime
+    ){
+        // return true if setting the check in time was successful
+        // return false if it wasn't successful
+        try{
+            LocalTime checkOutLocalTime = LocalTime.parse(checkOutTime, localTimeFormatter);
+            return dailyWorkingHoursService.setCheckOut(dailyWorkingHoursId, employeeId, checkOutLocalTime);
+        }catch (Exception e){
+            System.out.println("Couldn't parse checkOutTime to LocalTime. checkOutTime given: " + checkOutTime);
+            System.out.println(e);
+            return false;
+        }
+    }
 }
