@@ -18,7 +18,7 @@ public class DailyWorkingHoursService {
     DailyBreakTimesRepository dailyBreakTimesRepository;
     EmployeeRepository employeeRepository;
 
-    public DailyWorkingHoursService(DailyWorkingHoursRepository dailyWorkingHoursRepository, EmployeeRepository employeeRepository, DailyBreakTimesRepository dailyBreakTimesRepository){
+    public DailyWorkingHoursService(DailyWorkingHoursRepository dailyWorkingHoursRepository, EmployeeRepository employeeRepository, DailyBreakTimesRepository dailyBreakTimesRepository) {
         this.dailyWorkingHoursRepository = dailyWorkingHoursRepository;
         this.employeeRepository = employeeRepository;
         this.dailyBreakTimesRepository = dailyBreakTimesRepository;
@@ -31,22 +31,22 @@ public class DailyWorkingHoursService {
         // Make sure that the employee hasn't checked in yet today ( can only check in once every day )
         DailyWorkingHours currentDailyWorkingHoursEntityForCurrentDateAndEmployee = dailyWorkingHoursRepository.getDailyWorkingHoursByEmployeeIdAndDate(employeeId, LocalDate.now());
 
-        if(currentDailyWorkingHoursEntityForCurrentDateAndEmployee != null){
+        if (currentDailyWorkingHoursEntityForCurrentDateAndEmployee != null) {
             return false;
         }
 
         // Create new entity and try to save it
         DailyWorkingHours dailyWorkingHours = new DailyWorkingHours(
-            employeeRepository.getById(employeeId),
-            LocalDate.now(),
-            checkInTime
+                employeeRepository.getById(employeeId),
+                LocalDate.now(),
+                checkInTime
         );
 
-        try{
+        try {
             dailyWorkingHoursRepository.save(dailyWorkingHours);
 
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Couldn't add a new DailyWorkingHours entity");
             System.out.println("Daily Working Hours data:");
             System.out.println(employeeId);
@@ -63,7 +63,7 @@ public class DailyWorkingHoursService {
     }
 
     @Transactional
-    public boolean setCheckOut(Long dailyWorkingHoursId, Long employeeId, LocalTime checkOutTime) {
+    public boolean setCheckOut(Long dailyWorkingHoursId, LocalTime checkOutTime) {
         /*
         Properties needed to be updated:
         totalDayWorkTime
@@ -71,15 +71,26 @@ public class DailyWorkingHoursService {
         checkOut
         */
 
-        // Get the DailyWorkingHours for employee id and the current date
+        // Get the DailyWorkingHours
         DailyWorkingHours currentDailyWorkingHours = dailyWorkingHoursRepository.getById(dailyWorkingHoursId);
+
+        // Make sure that there is a checkInTime already. You can't check out without checking in first.
+        // Make sure that the checkOutTime hasn't been already set since you can't check out more than once.
+        // Make sure that the checkOutTime is bigger than the checkInTime. You can't check in at 08:30:00 and check out earlier. The check-out time must be made later
+        if(
+                currentDailyWorkingHours.getCheckIn() == null ||
+                currentDailyWorkingHours.getCheckOut() != null ||
+                checkOutTime.compareTo(currentDailyWorkingHours.getCheckIn()) != 1
+        ){
+            return false;
+        }
 
         // Get a list of all breaks made today
         List<DailyBreakTimes> dailyBreakTimesForCurrentDate = dailyBreakTimesRepository.getAllBreaksByDailyWorkingHoursIdAndDate(dailyWorkingHoursId, LocalDate.now());
 
         // Get the totalBreakTime
         LocalTime totalBreakTime = LocalTime.of(0, 0, 0);
-        for(DailyBreakTimes breakTimes : dailyBreakTimesForCurrentDate){
+        for (DailyBreakTimes breakTimes : dailyBreakTimesForCurrentDate) {
             LocalTime breakCheckIn = breakTimes.getBreakCheckIn();
             LocalTime breakCheckOut = breakTimes.getBreakCheckOut();
             LocalTime breakTime;
@@ -92,7 +103,7 @@ public class DailyWorkingHoursService {
             // Add the break time to the total break time
             totalBreakTime = totalBreakTime.plusHours(breakTime.getHour());
             totalBreakTime = totalBreakTime.plusMinutes(breakTime.getMinute());
-            totalBreakTime =  totalBreakTime.plusSeconds(breakTime.getSecond());
+            totalBreakTime = totalBreakTime.plusSeconds(breakTime.getSecond());
         }
 
         // Get the total work time ( checkOut - checkIn - totalBreakTime )
@@ -103,15 +114,15 @@ public class DailyWorkingHoursService {
         totalDayWorkTime = totalDayWorkTime.minusMinutes(checkInTime.getMinute());
         totalDayWorkTime = totalDayWorkTime.minusSeconds(checkInTime.getSecond());
 
-        totalDayWorkTime = totalBreakTime.minusHours(totalBreakTime.getHour());
-        totalDayWorkTime = totalBreakTime.minusMinutes(totalBreakTime.getMinute());
-        totalDayWorkTime = totalBreakTime.minusSeconds(totalBreakTime.getSecond());
+        totalDayWorkTime = totalDayWorkTime.minusHours(totalBreakTime.getHour());
+        totalDayWorkTime = totalDayWorkTime.minusMinutes(totalBreakTime.getMinute());
+        totalDayWorkTime = totalDayWorkTime.minusSeconds(totalBreakTime.getSecond());
 
         // Save the values
-        try{
-            DailyWorkingHoursRepository.updateCheckOutTotalBreakTimeTotalWorkTime(checkOutTime, totalBreakTime, totalDayWorkTime, dailyWorkingHoursId);
+        try {
+            dailyWorkingHoursRepository.updateCheckOutTotalBreakTimeTotalWorkTime(checkOutTime, totalBreakTime, totalDayWorkTime, dailyWorkingHoursId);
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Couldn't update the daily working hours repository with the checkOutTime, totalBreakTime and totalDayWorkTime. Values and exception in order:");
             System.out.println(checkOutTime);
             System.out.println(totalBreakTime);
