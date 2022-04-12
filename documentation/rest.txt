@@ -17,5 +17,5 @@ api/dailyworkinghours/setCheckOut(dailyWorkingsHoursId, employeeId, checkOutTime
 
 dailyBreakTimes
 
-api/dailybreaktimes/breakCheckIn(dailyWorkingsHoursId, checkInTime)
-api/dailybreaktimes/breakCheckOut(dayBreakTimeId, dailyWorkingsHoursId, checkOutTime)
+api/dailybreaktimes/breakCheckIn(dailyWorkingsHoursId, breakCheckInTime)
+api/dailybreaktimes/breakCheckOut(dayBreakTimeId, dailyWorkingsHoursId, breakCheckOutTime)
