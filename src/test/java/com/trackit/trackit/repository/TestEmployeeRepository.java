@@ -1,8 +1,10 @@
 package com.trackit.trackit.repository;
 
+import com.trackit.trackit.model.Employee;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -28,12 +30,6 @@ public class TestEmployeeRepository {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private DailyWorkingHoursRepository dailyWorkingHoursRepository;
-
-    @Autowired
-    private DailyBreakTimesRepository dailyBreakTimesRepository;
 
     /* ------------------------------------------- REPOSITORIES -------------------------------------------- */
 
@@ -68,27 +64,35 @@ public class TestEmployeeRepository {
     @Transactional
     @BeforeAll
     public void setUp(){
-        breakTime.setBreakCheckOut(LocalTime.of(13, 0, 0));
-        dailyWorkingHours.setCheckOut(LocalTime.of(16, 30, 0));
-        dailyWorkingHours.setTotalBreakTime(LocalTime.of(1, 0, 0));
-        dailyWorkingHours.setTotalDayWorkTime(LocalTime.of(7, 0, 0));
-
         employeeRepository.save(employee);
-        dailyWorkingHoursRepository.save(dailyWorkingHours);
-        dailyBreakTimesRepository.save(breakTime);
     }
 
     @Transactional
     @AfterAll
     public void cleanUp(){
-        dailyBreakTimesRepository.deleteAll();
-        dailyWorkingHoursRepository.deleteAll();
         employeeRepository.deleteAll();
     }
 
     /* ------------------------------------------- SET-UP & CLEAN-UP -------------------------------------------- */
 
     /* ------------------------------------------- TESTS -------------------------------------------- */
+
+    @Test
+    public void testSave(){
+        Employee testEmployee = employeeRepository.getById(employee.getEmployeeId());
+        boolean testEmployeeExists = testEmployee.getEmployeeId().equals(employee.getEmployeeId());
+
+        assertThat(testEmployeeExists).isTrue();
+    }
+
+    @Test
+    public void testGetUserByUsernameAndPassword(){
+        Employee testEmployee = employeeRepository.getUserByUsernameAndPassword(employee.getUsername(), employee.getPassword());
+
+        boolean testEmployeeExists = testEmployee.getEmployeeId().equals(employee.getEmployeeId());
+
+        assertThat(testEmployeeExists).isTrue();
+    }
 
     /* ------------------------------------------- TESTS -------------------------------------------- */
 }
