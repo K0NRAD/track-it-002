@@ -4,9 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
-@Table(name = "DayBreakTime")
+@Table(name = "DailyBreakTimes")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -24,8 +25,8 @@ public class DailyBreakTimes {
     private DailyWorkingHours dailyWorkingHours;
 
     @Column(name = "breakCheckIn", nullable = false, updatable = false)
-    private Time breakCheckIn;
+    private LocalTime breakCheckIn;
 
     @Column(name = "breakCheckOut", nullable = false, updatable = false)
-    private Time breakCheckOut;
+    private LocalTime breakCheckOut;
 }
