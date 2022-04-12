@@ -3,7 +3,6 @@ package com.trackit.trackit.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.time.LocalTime;
 
 @Entity
@@ -16,8 +15,8 @@ import java.time.LocalTime;
 public class DailyBreakTimes {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "dayBreakTimeId", nullable = false, updatable = false)
-    private Long dayBreakTimeId;
+    @Column(name = "dailyBreakTimesId", nullable = false, updatable = false)
+    private Long dailyBreakTimesId;
 
     @ManyToOne()
     @JoinColumn(name = "dailyWorkingHoursId")
@@ -27,6 +26,11 @@ public class DailyBreakTimes {
     @Column(name = "breakCheckIn", nullable = false, updatable = false)
     private LocalTime breakCheckIn;
 
-    @Column(name = "breakCheckOut", nullable = false, updatable = false)
+    @Column(name = "breakCheckOut", updatable = false)
     private LocalTime breakCheckOut;
+
+    public DailyBreakTimes(DailyWorkingHours dailyWorkingHours, LocalTime breakCheckIn){
+        this.dailyWorkingHours = dailyWorkingHours;
+        this.breakCheckIn = breakCheckIn;
+    }
 }
