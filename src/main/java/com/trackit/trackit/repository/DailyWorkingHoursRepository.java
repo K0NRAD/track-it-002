@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @Repository
 public interface DailyWorkingHoursRepository extends JpaRepository<DailyWorkingHours, Long> {
     //  UPDATE daily_working_hours SET check_out='16:30:00', total_break_time='01:00:00', total_day_work_time='07:00:00' WHERE daily_working_hours_id = 81;
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = "UPDATE daily_working_hours SET check_out=?1, total_break_time=?2, total_day_work_time=?3 WHERE daily_working_hours_id=?4", nativeQuery = true)
     void updateCheckOutTotalBreakTimeTotalWorkTime(LocalTime checkOutTime, LocalTime totalBreakTime, LocalTime totalDayWorkTime, Long dailyWorkingHoursId);
