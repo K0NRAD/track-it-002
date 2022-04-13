@@ -40,10 +40,9 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "api/employee/getEmployeeDataByEmployeeId")
-    public Optional<Employee> getEmployeeData(
+    public Employee getEmployeeData(
             @RequestParam(value = "employee_id", required = true) Long employeeId
     ){
-
         return employeeService.getEmployeeDataByEmployeeId(employeeId);
     }
 }

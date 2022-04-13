@@ -4,6 +4,7 @@ import com.trackit.trackit.model.Employee;
 import com.trackit.trackit.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,8 +15,8 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Optional<Employee> getEmployeeDataByEmployeeId(Long employeeId) {
-        return employeeRepository.findById(employeeId);
+    public Employee getEmployeeDataByEmployeeId(Long employeeId) {
+        return employeeRepository.findById(employeeId).get();
     }
 
     public Employee getEmployeeByUsernameAndPassword(String username, String password) {
