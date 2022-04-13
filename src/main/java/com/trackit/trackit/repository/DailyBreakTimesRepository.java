@@ -22,7 +22,6 @@ public interface DailyBreakTimesRepository extends JpaRepository<DailyBreakTimes
     @Query(value = "UPDATE daily_break_times SET break_check_out=?2 WHERE daily_break_times_id = ?1", nativeQuery = true)
     void breakCheckOut(Long dayBreakTimesId, LocalTime breakCheckOutTime);
 
-    // TODO: Test this new repository query
     @Query(value = "SELECT * FROM daily_break_times WHERE daily_working_hours_id=?1 AND break_check_in=?2", nativeQuery = true)
     List<DailyBreakTimes> getDailyBreakTimeByDailyWorkingHoursIdAndBreakCheckIn(Long dailyWorkingHoursId, LocalTime breakCheckIn);
 }

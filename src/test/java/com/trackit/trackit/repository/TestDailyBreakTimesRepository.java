@@ -162,5 +162,21 @@ public class TestDailyBreakTimesRepository {
         assertThat(secondBreakTimeIsInsideList).isTrue();
     }
 
+    @Test
+    public void testGetDailyBreakTimeByDailyWorkingHoursIdAndBreakCheckIn(){
+        List<DailyBreakTimes> testBreaksList = dailyBreakTimesRepository.getDailyBreakTimeByDailyWorkingHoursIdAndBreakCheckIn(dailyWorkingHours.getDailyWorkingHoursId(), breakTime.getBreakCheckIn());
+
+        boolean onlyOneBreak = testBreaksList.size() == 1;
+
+        DailyBreakTimes testBreakTime = testBreaksList.get(0);
+
+        boolean breakHasCorrectCheckInTime = testBreakTime.getBreakCheckIn().equals(breakTime.getBreakCheckIn());
+        boolean receivedTheRightBreak = testBreakTime.getDailyWorkingHours().getDailyWorkingHoursId().equals(breakTime.getDailyWorkingHours().getDailyWorkingHoursId());
+
+        assertThat(onlyOneBreak).isTrue();
+        assertThat(breakHasCorrectCheckInTime).isTrue();
+        assertThat(receivedTheRightBreak).isTrue();
+    }
+
     /* ------------------------------------------- TESTS -------------------------------------------- */
 }
