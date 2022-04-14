@@ -25,6 +25,8 @@ export default{
             this.activeSidebar = true;
             document.getElementById("dailyTracker").classList.remove("card-container");
             document.getElementById("dailyTracker").classList.add("card-containerActive");
+            document.getElementById("button-RowCenter").classList.remove("button-RowCenter");
+            document.getElementById("button-RowCenter").classList.add("button-RowCenterActive");
             
            
             
@@ -183,5 +185,13 @@ export default{
     .card-containerActive .sendButton:hover{
         background-color:#0b782c;
         color: #ffffff;
+    }
+    .button-RowCenterActive button{
+         width: 15rem;
+        padding: 1.5rem;
+        margin: 0.5rem 2.3rem 0.5rem 2rem;
+        border-radius: 1.5rem;
+        border: none;
+        text-align: center;
     }
 </style>

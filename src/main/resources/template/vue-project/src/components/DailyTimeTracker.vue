@@ -44,16 +44,19 @@ setInterval(displayTime, 10);
     
     <div class="tracker">
         <div class="checkIn">
-            
+            <span>checkIn:</span>
+            <span></span>
         </div>
         <div class="workTime">
-
+            <span>worked Time:</span>
+            <span></span>
         </div>
         <div class="breakTime">
-
+            <span>break Time:</span>
+            <span></span>
         </div>
     </div>
-    <div class="button-RowCenter">
+    <div class="button-RowCenter" id="button-RowCenter">
         <button class="checkIn-Button">Check-In</button>
         <button class="break-Button">Break</button>
         <button class="checkOut-Button">Check-Out</button>
