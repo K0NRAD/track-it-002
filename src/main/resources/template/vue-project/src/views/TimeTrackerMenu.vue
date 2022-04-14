@@ -23,8 +23,10 @@ export default{
             this.activeWeeklyTimeSheet = false;
             this.activeProtocolForm = false;
             this.activeSidebar = true;
-            document.getElementById("dailyTracker").classList.remove("card-container")
-            document.getElementById("dailyTracker").classList.add("card-containerActive")
+            document.getElementById("dailyTracker").classList.remove("card-container");
+            document.getElementById("dailyTracker").classList.add("card-containerActive");
+            document.getElementById("button-RowCenter").classList.remove("button-RowCenter");
+            document.getElementById("button-RowCenter").classList.add("button-RowCenterActive");
             
            
             
@@ -35,7 +37,7 @@ export default{
             this.activeProtocolForm = false;
             this.activeSidebar = true;
             
-           document.getElementById("weeklyTimeSheet").classList.remove("card-container");
+            document.getElementById("weeklyTimeSheet").classList.remove("card-container");
             document.getElementById("weeklyTimeSheet").classList.add("card-containerActive");
         },
         setActiveProtocolForm(){
@@ -104,7 +106,7 @@ export default{
     }
 
     .card {
-        margin: auto;
+        margin: 7% auto 0 auto;
         display: flex;
         background: #dfe6e8;
         width: 70rem;
@@ -139,18 +141,13 @@ export default{
        width: 10%;
         float: right;
     }
-    button{
-        border-radius: 5rem;
-        padding: 0.5rem;
-        width: 7.5rem;
-        margin: 0.3rem;
-        border: none;
-    }
+    
     button:hover {
         cursor: pointer;
     }
     .card-containerActive{
         width: 95%;
+        
         height: 100%;
         border-radius: 1rem;
         margin-right: 1.5rem;
@@ -161,19 +158,19 @@ export default{
         background-color: #86f075;
     }
     .card-containerActive .checkIn-Button:hover{
-    background-color: #339413;
+        background-color: #339413;
     }
     .card-containerActive .break-Button{
-    background-color: #fcfa74;   
+        background-color: #fcfa74;   
     }
     .card-containerActive .break-Button:hover{
-    background-color: #fae20a;  
+        background-color: #fae20a;  
     }
     .card-containerActive .checkOut-Button{
-    background-color: #fc7262;
+        background-color: #fc7262;
     }
     .card-containerActive .checkOut-Button:hover{
-    background-color: #d92916;
+        background-color: #d92916;
     }
     .card-containerActive .printButton{
         background-color: #a05aad;
@@ -188,5 +185,13 @@ export default{
     .card-containerActive .sendButton:hover{
         background-color:#0b782c;
         color: #ffffff;
+    }
+    .button-RowCenterActive button{
+         width: 15rem;
+        padding: 1.5rem;
+        margin: 0.5rem 2.3rem 0.5rem 2rem;
+        border-radius: 1.5rem;
+        border: none;
+        text-align: center;
     }
 </style>

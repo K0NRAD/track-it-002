@@ -1,16 +1,33 @@
 <script>
+var today = new Date();
+const loadDate = () => {
+    
+    document.getElementById('dateElement2').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+}
+window.setInterval(loadDate, 100)
+
+const displayTime = ()=>{
+    var dateTime = new Date();
+    var hrs = dateTime.getHours();
+    var min = dateTime.getMinutes();
+
+    document.getElementById('hours2').innerHTML = hrs ;
+    document.getElementById('minutes2').innerHTML = min;
+
+}
+setInterval(displayTime, 500);
 
 </script>
 <template>
     <div class="card-container" id="protocolForm" >
         <div class="dateTime-Container">
            <div class="date-row">
-                <span id="dateElement" ></span>
+                <span id="dateElement2" ></span>
             </div>
             <div class="time-row">
-                <span id="hours"></span>
+                <span id="hours2"></span>
                 <span>:</span>
-                <span id="minutes"></span>
+                <span id="minutes2"></span>
             </div>
         </div>
         <div class="userInformation">
@@ -62,6 +79,14 @@
 
 .button-Row{
     float: right;
+    
+}
+.button-Row button{
+     width: 20rem;
+        padding: 1.5rem;
+        margin: 0.5rem 0 0.5rem 0;
+        border-radius: 1.5rem;
+        border: none;
 }
 .card-container:hover .sendButton {
     background: #2ea652;
