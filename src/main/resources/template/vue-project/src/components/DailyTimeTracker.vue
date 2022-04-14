@@ -2,8 +2,7 @@
 var today = new Date();
 const loadDate = () => {
     
-    document.getElementById('dateElement').innerHTML = today.getDate() + '/' + today.getMonth() + '/' + today.getFullYear();
-    //timeElement.textContent = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();;
+    document.getElementById('dateElement').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
 }
 window.setInterval(loadDate, 100)
 
@@ -12,7 +11,7 @@ const displayTime= ()=>{
     var hrs = dateTime.getHours();
     var min = dateTime.getMinutes();
 
-    document.getElementById('hours').innerHTML = hrs;
+    document.getElementById('hours').innerHTML = hrs ;
     document.getElementById('minutes').innerHTML = min;
 
 }
@@ -79,6 +78,37 @@ setInterval(displayTime, 10);
 }
 .card-container button{
     background: grey;
+}
+.card-container:hover .checkIn-Button{
+    background-color: #86f075;
+}
+.card-container:hover .break-Button{
+    background-color: #fcfa74;  
+}
+.card-container:hover .checkOut-Button{
+    background-color: #fc7262;
+}
+.dateTime-Container {
+    margin-top: 2rem;
+    display: flex
+    ;  
+}
+.time-row{
+    width: 40%;
+    text-align: right;
+}
+.date-row{
+    width: 50%;
+    margin: 0;
+    padding-left: 0.5rem;
+    
+}
+.button-RowCenter button{
+     width: 20rem;
+        padding: 1.5rem;
+        margin: 0.5rem 0 0.5rem 0;
+        border-radius: 1.5rem;
+        border: none;
 }
 
 
