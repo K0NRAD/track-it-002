@@ -6,7 +6,7 @@ api/employee/loginEmployee(username, password)
 api/employee/registerEmployee(username, password, personnelNumber, firstName, lastName)
 - return true if registration was successful
 - return false otherwise
-api/employee/getEmployeeData(employeeId)
+api/employee/getEmployeeDataByEmployeeId(employeeId)
 - return userData based on the given employeeId
 
 dailyWorkingHours
