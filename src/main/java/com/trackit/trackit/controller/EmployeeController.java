@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 @RequiredArgsConstructor
 public class EmployeeController {
@@ -18,7 +16,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping(path = "api/employee/loginEmployee")
-    public Employee getEmployeeId(
+    public Employee loginEmployee(
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "password", required = true) String password
     ) {
