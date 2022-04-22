@@ -1,9 +1,53 @@
 <script>
+const registrationMethod = async (username, password, personnelNumber, firstName, lastName) => {
+    const registrationErrorMessageDiv = document.getElementById("showErrorMessage");
+    const registrationRestEndpoint = `http://localhost:8080/api/employee/registerEmployee?username=${username}&password=${password}&personnelNumber=${personnelNumber}&firstName=${firstName}&lastName=${lastName}`;
+
+    const response = await fetch(
+        registrationRestEndpoint,
+        {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": "*",
+            }
+        }
+    );
+    const jsonResponse = await response.json();
+
+    if(!jsonResponse){
+        registrationErrorMessageDiv.style.display="block";
+        setTimeout(
+            () => {
+                registrationErrorMessageDiv.style.display="none";
+            },
+            5000
+        );
+    }
+}
 
 export default{
+    data(){
+        return {
+        }
+    },
     methods: {
-        reloadPage(){
-            window.location.reload();
+        register(){
+            const username = document.getElementById("inputUsernameRegistration").value;
+            const password = document.getElementById("inputPasswordRegistration").value;
+            const personnelNumber = document.getElementById("inputPersonnelNumberRegistration").value;
+            const firstName = document.getElementById("inputFirstNameRegistration").value;
+            const lastName = document.getElementById("inputLastNameRegistration").value;
+
+            registrationMethod(
+                username,
+                password,
+                personnelNumber,
+                firstName,
+                lastName
+            );
         }
     }
 }
@@ -18,38 +62,45 @@ export default{
             <span>
             Username:
         </span>
-        <input class="inputUsername">
+        <input class="inputUsername" id="inputUsernameRegistration">
         </div>
         <div class="Input-Container">
             <span>
             Password:
         </span>
-        <input class="inputPassword">
+        <input class="inputPassword" id="inputPasswordRegistration">
         </div>
         <div class="Input-Container">
             <span>
             Firstname:
         </span>
-        <input class="inputFirstName">
+        <input class="inputFirstName" id="inputFirstNameRegistration">
         </div>
         <div class="Input-Container">
             <span>
             Lastname:
         </span>
-        <input class="inputLastName">
+        <input class="inputLastName" id="inputLastNameRegistration">
         </div>
         <div class="Input-Container">
         <span>
             personnel Number:
         </span>
-        <input class="inputPersonnelNumber">
+        <input class="inputPersonnelNumber" id="inputPersonnelNumberRegistration">
+        </div>
+        <br>
+        <div id="showErrorMessage">
+            <p>We couldn't register you. Try again.</p>
         </div>
         <div>
-            <button class="enterButton" @click="reloadPage">Enter</button>
+            <button class="enterButton" @click="register">Enter</button>
         </div>
     </div>
 </template>
 <style>
+#showErrorMessage{
+    display: none;
+}
 .enterButton{
         width: 20rem;
         padding: 1.5rem;
