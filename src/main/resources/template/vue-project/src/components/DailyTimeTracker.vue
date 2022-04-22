@@ -1,21 +1,24 @@
 <script>
 import TestData from "../testdata.json"
 
-var today = new Date();
-const loadDate = () => {
-    document.getElementById('dateElement').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
-}
-window.setInterval(loadDate, 1000);
+try{
+    var today = new Date();
+    const loadDate = () => {
+        document.getElementById('dateElement').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+    }
+    window.setInterval(loadDate, 1000);
 
-const displayTime= ()=>{
-    var dateTime = new Date();
-    var hrs = dateTime.getHours();
-    var min = dateTime.getMinutes();
+    const displayTime= ()=>{
+        var dateTime = new Date();
+        var hrs = dateTime.getHours();
+        var min = dateTime.getMinutes();
 
-    document.getElementById('hours').innerHTML = hrs ;
-    document.getElementById('minutes').innerHTML = min;
+        document.getElementById('hours').innerHTML = hrs ;
+        document.getElementById('minutes').innerHTML = min;
+    }
+    setInterval(displayTime, 1000);
+}catch{
 }
-setInterval(displayTime, 1000);
 
 var breakOption = false; //keine pause -> true pause startet -> false pause endet
 var checkIn = "";
