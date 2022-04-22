@@ -5,6 +5,7 @@
 ### 1. Projekt Überblick, Technologien und Frameworks
 #### 1.1 Projekt Überblick
 #### 1.2 Technologien und Frameworks
+#### 1.3 Set up
 ### 2. DB Dokumentation
 ### 3. Rest Endpoints Dokumentation
 ### 4. Backend Dokumentation
@@ -41,6 +42,40 @@ Technologien und Frameworks Überblick:
     * **Docker container für postgresql DB**
 * Frontend:
     * **Vue**
+
+#### 1.3 Set up
+
+Um die App einzurichten, muss der Docker-Container gestartet werden. Dazu führen wir ```docker-compose up``` im root-Ordner aus, in dem sich die Datei ```/docker-compose.yml``` befindet.
+
+Danach verwenden wir ```docker ps```, um alle verfügbaren Docker-Container zu sehen:
+
+```BASH
+$ docker ps
+
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                    NAMES
+ea269c4c9cc2   postgres:14.1   "docker-entrypoint.s…"   x minutes ago   Up x minutes   0.0.0.0:5435->5432/tcp   trackitPostgresContainer
+```
+
+Wir nehmen die Container-ID des Postgres-Containers und verbinden uns dann mit dem Container:
+
+```BASH
+$ docker exec -it ea269c4c9cc2 bash
+```
+
+Wir verbinden uns anschließend mit ```psql``` mit der Postgres-Datenbank und erstellen folgenden DBs mit den folgenden und Privilegien ( ```localhost``` ist in diesem Fall nur ein Beispiel ):
+
+```BASH
+$ psql -h localhost -p 5432 -U postgres
+```
+
+```psql
+postgres=# CREATE DATABASE trackit;
+postgres=# CREATE DATABASE testcontainers;
+postgres=# GRANT ALL PRIVILEGES ON DATABASE trackit TO postgres;
+postgres=# GRANT ALL PRIVILEGES ON DATABASE testcontainers TO postgres;
+```
+
+Jetztz haben wir die DB trackit für die App und die DB testcontainers für die TestContainers.
 
 ---
 
