@@ -27,7 +27,24 @@
             "totalBreakTime": "01:00:00",
             "checkIn": "08:30:00",
             "checkOut": "16:30:00"
+        },
+        {
+            "dailyWorkingHoursId": 15,
+            "employee": {
+                "employeeId": 13,
+                "username": "7bbe06e63b61b200a23b0bc7d13fbb6b90f30a7433585c3f8ad0bf4bae76b3cc",
+                "password": "fd5cb51bafd60f6fdbedde6e62c473da6f247db271633e15919bab78a02ee9eb",
+                "personnelNumber": "testPersonnelNumber",
+                "firstName": "testFirstName",
+                "lastName": "testLastName"
+            },
+            "date": "2022-04-15",
+            "totalDayWorkTime": "07:00:00",
+            "totalBreakTime": "01:00:00",
+            "checkIn": "09:30:00",
+            "checkOut": "16:30:00"
         }
+
     ],
     [
         "dailyBreakTimes",
@@ -46,6 +63,27 @@
                     "lastName": "testLastName"
                 },
                 "date": "2022-04-14",
+                "totalDayWorkTime": "07:00:00",
+                "totalBreakTime": "01:00:00",
+                "checkIn": "08:30:00",
+                "checkOut": "16:30:00"
+            }
+        },
+        {
+            "daily_break_times_id": 1,
+            "break_check_in": "12:00:00",
+            "break_check_out": "13:00:00",
+            "daily_working_hours": {
+                "dailyWorkingHoursId": 15,
+                "employee": {
+                    "employeeId": 13,
+                    "username": "7bbe06e63b61b200a23b0bc7d13fbb6b90f30a7433585c3f8ad0bf4bae76b3cc",
+                    "password": "fd5cb51bafd60f6fdbedde6e62c473da6f247db271633e15919bab78a02ee9eb",
+                    "personnelNumber": "testPersonnelNumber",
+                    "firstName": "testFirstName",
+                    "lastName": "testLastName"
+                },
+                "date": "2022-04-15",
                 "totalDayWorkTime": "07:00:00",
                 "totalBreakTime": "01:00:00",
                 "checkIn": "08:30:00",
