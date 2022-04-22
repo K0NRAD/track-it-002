@@ -3,7 +3,9 @@ package com.trackit.trackit.controller;
 import com.trackit.trackit.model.DailyWorkingHours;
 import com.trackit.trackit.service.DailyWorkingHoursService;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class DailyWorkingHoursController {
@@ -21,6 +24,7 @@ public class DailyWorkingHoursController {
     private final DateTimeFormatter localTimeFormatter = DateTimeFormatter.ofPattern("H:mm:ss");
     private final DateTimeFormatter localDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    @CrossOrigin
     @GetMapping(value = "api/dailyworkinghours/setCheckIn")
     public boolean setCheckIn(
             @RequestParam(value = "employeeId") Long employeeId,
@@ -38,6 +42,7 @@ public class DailyWorkingHoursController {
         }
     }
 
+    @CrossOrigin
     @GetMapping(value = "api/dailyworkinghours/getDailyWorkingHoursByEmployeeIdAndDate")
     public DailyWorkingHours getDailyWorkingHoursByEmployeeIdAndDate(
             @RequestParam(value = "employeeId") Long employeeId,
@@ -55,6 +60,7 @@ public class DailyWorkingHoursController {
         }
     }
 
+    @CrossOrigin
     @GetMapping(value = "api/dailyworkinghours/setCheckOut")
     public boolean setCheckOut(
         @RequestParam(value = "dailyWorkingHoursId") Long dailyWorkingHoursId,

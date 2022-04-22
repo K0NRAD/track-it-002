@@ -3,6 +3,7 @@ package com.trackit.trackit.controller;
 import com.trackit.trackit.service.DailyBreakTimesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class DailyBreakTimesController {
@@ -18,6 +20,7 @@ public class DailyBreakTimesController {
 
     private final DateTimeFormatter localTimeFormatter = DateTimeFormatter.ofPattern("H:mm:ss");
 
+    @CrossOrigin
     @GetMapping(value = "api/dailybreaktimes/breakCheckIn")
     public boolean breakCheckIn(
             @RequestParam(value = "dailyWorkingHoursId") Long dailyWorkingHoursId,
@@ -35,6 +38,7 @@ public class DailyBreakTimesController {
         }
     }
 
+    @CrossOrigin
     @GetMapping(value = "api/dailybreaktimes/breakCheckOut")
     public boolean breakCheckOut(
         @RequestParam(value = "dayBreakTimeId") Long dayBreakTimesId,
