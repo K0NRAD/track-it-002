@@ -3,10 +3,9 @@ import TestData from "../testdata.json"
 
 var today = new Date();
 const loadDate = () => {
-    
     document.getElementById('dateElement').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
 }
-window.setInterval(loadDate, 100)
+window.setInterval(loadDate, 1000);
 
 const displayTime= ()=>{
     var dateTime = new Date();
@@ -15,9 +14,8 @@ const displayTime= ()=>{
 
     document.getElementById('hours').innerHTML = hrs ;
     document.getElementById('minutes').innerHTML = min;
-
 }
-//setInterval(displayTime, 10);
+setInterval(displayTime, 1000);
 
 var breakOption = false; //keine pause -> true pause startet -> false pause endet
 var checkIn = "";

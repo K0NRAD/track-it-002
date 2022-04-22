@@ -15,10 +15,9 @@ var fullName = employeeFirstName + " " + employeeLastName;
 
 var today = new Date();
 const loadDate = () => {
-    
     document.getElementById('dateElement3').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
 }
-window.setInterval(loadDate, 100)
+window.setInterval(loadDate, 1000);
 
 const displayTime= ()=>{
     var dateTime = new Date();
@@ -29,7 +28,7 @@ const displayTime= ()=>{
     document.getElementById('minutes3').innerHTML = min;
 
 }
-setInterval(displayTime, 10);
+setInterval(displayTime, 1000);
 
 export default{
     data(){
