@@ -1,19 +1,22 @@
 <script>
-var today = new Date();
-const loadDate = () => {
-    document.getElementById('dateElement2').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
-}
-window.setInterval(loadDate, 1000);
+try{
+    var today = new Date();
+    const loadDate = () => {
+        document.getElementById('dateElement2').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+    }
+    window.setInterval(loadDate, 1000);
 
-const displayTime = () => {
-    var dateTime = new Date();
-    var hrs = dateTime.getHours();
-    var min = dateTime.getMinutes();
+    const displayTime = () => {
+        var dateTime = new Date();
+        var hrs = dateTime.getHours();
+        var min = dateTime.getMinutes();
 
-    document.getElementById('hours2').innerHTML = hrs ;
-    document.getElementById('minutes2').innerHTML = min;
+        document.getElementById('hours2').innerHTML = hrs ;
+        document.getElementById('minutes2').innerHTML = min;
+    }
+    setInterval(displayTime, 1000);
+}catch{
 }
-setInterval(displayTime, 1000);
 
 </script>
 <template>

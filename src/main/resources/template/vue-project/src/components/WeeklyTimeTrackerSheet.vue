@@ -13,22 +13,26 @@ var employeePersonnelNumber = employee.personnelNumber;
 
 var fullName = employeeFirstName + " " + employeeLastName;
 
-var today = new Date();
-const loadDate = () => {
-    document.getElementById('dateElement3').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+try{
+    var today = new Date();
+    const loadDate = () => {
+        document.getElementById('dateElement3').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+    }
+    window.setInterval(loadDate, 1000);
+
+    const displayTime= ()=>{
+        var dateTime = new Date();
+        var hrs = dateTime.getHours();
+        var min = dateTime.getMinutes();
+
+        document.getElementById('hours3').innerHTML = hrs ;
+        document.getElementById('minutes3').innerHTML = min;
+
+    }
+    setInterval(displayTime, 1000);
 }
-window.setInterval(loadDate, 1000);
-
-const displayTime= ()=>{
-    var dateTime = new Date();
-    var hrs = dateTime.getHours();
-    var min = dateTime.getMinutes();
-
-    document.getElementById('hours3').innerHTML = hrs ;
-    document.getElementById('minutes3').innerHTML = min;
-
+catch{
 }
-setInterval(displayTime, 1000);
 
 export default{
     data(){
