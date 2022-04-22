@@ -1,4 +1,6 @@
 <script>
+import TestData from "../testdata.json"
+
 var today = new Date();
 const loadDate = () => {
     
@@ -15,7 +17,27 @@ const displayTime= ()=>{
     document.getElementById('minutes').innerHTML = min;
 
 }
-setInterval(displayTime, 10);
+//setInterval(displayTime, 10);
+
+var breakOption = false; //keine pause -> true pause startet -> false pause endet
+var checkIn = "";
+var checkOut = "";
+
+export default{
+    data(){
+        return{
+            breakOption: breakOption,
+            checkIn: checkIn,
+            checkOut: checkOut,
+            TestData:TestData
+        }
+    },
+    methods:{
+        CheckIn(){
+            console.log( "Hi")
+        }
+    }
+}
 
 </script>
 <template>
@@ -45,7 +67,7 @@ setInterval(displayTime, 10);
     <div class="tracker">
         <div class="checkIn">
             <span>checkIn:</span>
-            <span></span>
+            <span> {{checkIn}} </span>
         </div>
         <div class="workTime">
             <span>worked Time:</span>
@@ -57,9 +79,9 @@ setInterval(displayTime, 10);
         </div>
     </div>
     <div class="button-RowCenter" id="button-RowCenter">
-        <button class="checkIn-Button">Check-In</button>
-        <button class="break-Button">Break</button>
-        <button class="checkOut-Button">Check-Out</button>
+        <button class="checkIn-Button" @click="CheckIn">Check-In</button>
+        <button class="break-Button" @click="Break">Break</button>
+        <button class="checkOut-Button" @click="CheckOut">Check-Out</button>
     </div>
 
 </div>

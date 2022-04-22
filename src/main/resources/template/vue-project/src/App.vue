@@ -1,7 +1,9 @@
 <script setup>
 //import HelloWorld from './components/HelloWorld.vue'
 //import TheWelcome from './components/TheWelcome.vue'
+import {Employee} from "./models/models";
 import StartPage from "./views/StartPage.vue";
+
 
 </script>
 

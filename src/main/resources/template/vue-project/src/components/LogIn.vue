@@ -1,5 +1,56 @@
 <script>
 
+import TestData from "../testdata.json"
+
+var employee = TestData[0][1]
+
+var username = employee.username;
+var password = employee.password;
+console.log(username)
+
+
+
+export default{
+    data() {
+        return {
+            TestData: TestData,
+            user:{
+                name: "",
+                password: "",
+            },
+            message: ""
+            
+        }
+    },
+    methods: {
+        LogIn() {
+            console.log("Hi")
+
+            var usernameInput = document.getElementById("inputUsername").value;   
+            var passwordInput = document.getElementById("inputPassword").value;
+
+           
+
+            if ( usernameInput == username && passwordInput == password){
+            
+             this.$router.push('trackIt')
+             
+            
+            }
+            else{
+                message = "wrong username or password"
+            }
+     //       elseif(usernameInput != username && passwordInput == password){
+     //           message = "username don't exist"
+     //       }
+     //       elseif(usernameInput == username && passwordInput != password){
+     //            message = "wrong password"
+     //       }
+                  
+        }
+    }
+}
+
 
 </script>
 <template>
@@ -7,26 +58,32 @@
         <span class="LogIn-Text">
             LogIn
         </span>
-        <div class="Input-Container">
+        <br>
+        <span>
+                {{ message }}
+        </span>
+        <div class="Input-Container" >
+            
             <span>
                 Username:
             </span>
-            <input class="inputUsername">
+            <input class="inputUsername" id="inputUsername" >
         </div>
         <div class="Input-Container">
             <span>
                 Password:
             </span>
-            <input class="inputPassword">
+            <input class="inputPassword" id="inputPassword" >
         </div>
         <div class="placeHolder">
 
         </div>
         <div>
-            <button class="enterButton" @click="$router.push('trackIt')">Enter</button>
+            <button class="enterButton" @click="LogIn">Enter</button>
         </div>
     </div>
 </template>
+
 <style>
 .Input-Container{
     font-size: 1.5rem;
