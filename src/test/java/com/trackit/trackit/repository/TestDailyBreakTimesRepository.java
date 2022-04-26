@@ -178,5 +178,13 @@ public class TestDailyBreakTimesRepository {
         assertThat(receivedTheRightBreak).isTrue();
     }
 
+    @Test
+    public void testGetBreakTimesByDailyWorkingHoursId(){
+        List<DailyBreakTimes> testBreaksList = dailyBreakTimesRepository.getBreakTimesByDailyWorkingHoursId(dailyWorkingHours.getDailyWorkingHoursId());
+
+        assertThat(testBreaksList.size() == 2).isTrue();
+        assertThat(testBreaksList.contains(breakTime)).isTrue();
+        assertThat(testBreaksList.contains(secondBreakTime)).isTrue();
+    }
     /* ------------------------------------------- TESTS -------------------------------------------- */
 }
