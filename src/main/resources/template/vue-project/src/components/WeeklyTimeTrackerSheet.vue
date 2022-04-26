@@ -144,12 +144,18 @@ export default{
     padding: 0 2rem 0 2rem;
     margin-bottom: 2rem;
     font-size: 1.3rem;
+    display: flexbox;
+    max-width: 80%rem;
+    
+    
+    
 }
 .userInformation{
     font-size: 1.5rem;
     text-align: right;
     margin-bottom: 1rem;
     padding-right: 1rem ;
+
 }
 .dateTime-Container{
     font-size: 1.3rem;
