@@ -149,5 +149,8 @@ public class TestDailyBreakTimesService {
         assertThat(rightBreakCheckedOut).isTrue();
     }
 
+    public void testGetBreakTimesByDailyWorkingHoursId(){
+        // Works directly with the repository method, if the repository method is working, this will work too.
+    }
     /* ------------------------------------------- TESTS -------------------------------------------- */
 }
