@@ -40,6 +40,7 @@ export default{
             
             document.getElementById("weeklyTimeSheet").classList.remove("card-container");
             document.getElementById("weeklyTimeSheet").classList.add("card-containerActive");
+            
         },
         setActiveProtocolForm(){
             this.activeDailyTracker = false;
@@ -194,5 +195,14 @@ export default{
         border-radius: 1.5rem;
         border: none;
         text-align: center;
+    }
+    .information-containerActive{
+        width: 20%;
+    padding: 0 2rem 0 2rem;
+    margin-bottom: 2rem;
+    font-size: 1.3rem;
+    display: flexbox;
+    max-width: 80%rem;
+    visibility: visible;
     }
 </style>

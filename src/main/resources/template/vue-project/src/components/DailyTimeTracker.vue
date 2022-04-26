@@ -1,44 +1,256 @@
 <script>
 import TestData from "../testdata.json"
+    var dailyWorkingHoursData = TestData[1][1]
 
-try{
-    var today = new Date();
-    const loadDate = () => {
-        document.getElementById('dateElement').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+    var employee = dailyWorkingHoursData.employee;
+
+    var employeeFirstName = employee.firstName;
+    var employeeLastName = employee.lastName;
+    var employeePersonnelNumber = employee.personnelNumber;
+
+    var fullName = employeeFirstName + " " + employeeLastName;
+
+    
+
+var hr = 0;
+var min = 0;
+var sec = 0;
+var stoptime = true;
+
+const timer = document.getElementById('stopwatch');
+
+    const timerCycle= () =>{
+
+        
+
+            console.log(stoptime)
+            if (stoptime == false) {
+                sec = parseInt(sec);
+                min = parseInt(min);
+                hr = parseInt(hr);
+
+            sec = sec + 1;
+
+            if (sec == 60) {
+            min = min + 1;
+            sec = 0;
+            }
+            if (min == 60) {
+            hr = hr + 1;
+            min = 0;
+            sec = 0;
+            }
+
+            if (sec < 10 || sec == 0) {
+            sec = '0' + sec;
+            }
+            if (min < 10 || min == 0) {
+            min = '0' + min;
+            }
+            if (hr < 10 || hr == 0) {
+            hr = '0' + hr;
+            }
+
+            timer.innerHTML = hr + ':' + min + ':' + sec;
+
+            setTimeout("timerCycle()", 1000);
+            }
+        }
+
+
+    
+
+    try{
+        var today = new Date();
+        const loadDate = () => {
+            document.getElementById('dateElement').innerHTML = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+        }
+        window.setInterval(loadDate, 1000);
+
+        const displayTime= ()=>{
+            var dateTime = new Date();
+            var hrs = dateTime.getHours();
+            var min = dateTime.getMinutes();
+            var sec = dateTime.getSeconds();
+
+
+            document.getElementById('hours').innerHTML = hrs ;
+            document.getElementById('minutes').innerHTML = min;
+        }
+        setInterval(displayTime, 1000);
+    }catch{
     }
-    window.setInterval(loadDate, 1000);
 
-    const displayTime= ()=>{
-        var dateTime = new Date();
-        var hrs = dateTime.getHours();
-        var min = dateTime.getMinutes();
 
-        document.getElementById('hours').innerHTML = hrs ;
-        document.getElementById('minutes').innerHTML = min;
-    }
-    setInterval(displayTime, 1000);
-}catch{
-}
-
-var breakOption = false; //keine pause -> true pause startet -> false pause endet
 var checkIn = "";
 var checkOut = "";
+var checkOutBreak = "";
+var checkInBreak = "";
+var breakOption = 0;
+var breakTime = "";
+var checkInBreakHours = 0
+var checkOutBreakHours = 0
+var checkInBreakMinutes = 0
+var checkOutBreakMinutes = 0
+var currentBreakTimeMinutes = 0
+var currentBreakTimeHours = 0
+var checkInHours = 0
+var checkInMinutes = 0
+
+
+
 
 export default{
     data(){
         return{
             breakOption: breakOption,
-            checkIn: checkIn,
-            checkOut: checkOut,
-            TestData:TestData
+            currentCheckOut: checkOut,
+            TestData: TestData,
+            currentCheckIn : checkIn,
+            checkOutBreak: checkOutBreak,
+            checkInBreak: checkInBreak,
+            breakTime: breakTime,
+            checkInBreakHours: checkInBreakHours,
+            checkOutBreakHours: checkOutBreakHours,
+            checkInBreakMinutes: checkInBreakMinutes,
+            checkOutBreakMinutes: checkOutBreakMinutes,
+            showBreakTime: false,
+            currentBreakTimeMinutes: currentBreakTimeMinutes,
+            currentBreakTimeHours: currentBreakTimeHours,
+            employeePersonnelNumber: employeePersonnelNumber,
+            fullName: fullName,
+            checkInHours: checkInHours,
+            checkInMinutes: checkInMinutes,
+            
+            hr: hr,
+            min: min,
+            sec: sec,
+            stoptime: stoptime
+
+        
         }
     },
     methods:{
-        CheckIn(){
-            console.log( "Hi")
+        
+        CheckIn(){ 
+            
+            
+            const currentDateTime = new Date();
+            const currentHourCheckIn = currentDateTime.getHours()
+            const currentMinuteCheckIn = currentDateTime.getMinutes()
+            
+            this.checkInHours = currentHourCheckIn
+            this.checkInMinutes = currentMinuteCheckIn
+            
+            const currentTime = currentHourCheckIn + ":" + currentMinuteCheckIn
+
+            checkIn = currentTime
+
+            this.currentCheckIn = checkIn
+   
+
+        },
+        CheckOut(){
+            const currentDateTime = new Date();
+            const currentHour = currentDateTime.getHours()
+            const currentMinute = currentDateTime.getMinutes()
+            const currentTime = currentHour + ":" + currentMinute
+            checkOut = currentTime
+
+
+            this.currentCheckOut = checkOut
+            console.log(checkOut)
+
+            
+        },
+        Break(){
+            if(breakOption == 0){
+                const currentDateTimeBreak = new Date();
+                const currentHourBreakCheckIn = currentDateTimeBreak.getHours()
+                const currentMinuteBreakCheckIn = currentDateTimeBreak.getMinutes()
+                const currentTime = currentHourBreakCheckIn + ":" + currentMinuteBreakCheckIn
+                
+                checkInBreak = currentTime
+
+                this.checkInBreakHours =  currentHourBreakCheckIn
+                this.checkInBreakMinutes = currentMinuteBreakCheckIn
+                
+                console.log("BreakCheckIn")
+                console.log(checkInBreak)
+
+                breakOption++
+            }
+            else{
+                const currentDateTimeBreak = new Date();
+                const currentHourBreakCheckOut = currentDateTimeBreak.getHours()
+                const currentMinuteBreakCheckOut = currentDateTimeBreak.getMinutes()
+                const currentTime = currentHourBreakCheckOut + ":" + currentMinuteBreakCheckOut
+                checkOutBreak = currentTime
+
+                this.checkOutBreakHours = currentHourBreakCheckOut
+                this.checkOutBreakMinutes = currentMinuteBreakCheckOut
+
+                this.showBreakTime = true
+
+                console.log("BreakCheckOUt")
+                console.log(checkOutBreak)
+
+                breakOption--
+
+                
+            }
+               
+        },
+       startTimer() {
+           console.log(stoptime)
+           
+            if (stoptime == true) {
+                console.log("start")
+                stoptime = false;
+                timerCycle();
+                
+            }
+        },
+        stopTimer() {
+            if (stoptime == false) {
+            stoptime = true;
         }
-    }
+        },
+        
+        resetTimer() {
+            console.log("reset")
+
+           timer.innerHTML = "00:00:00";
+            stoptime = true;
+            hr = 0;
+            sec = 0;
+            min = 0;
+        },
+        toggleTimer(){
+            console.log("Hi2")
+            console.log(stoptime)
+            
+            if (stoptime == false) {
+                
+                stoptime = true;
+                console.log(stoptime)
+                }
+            
+            else{
+                if (stoptime == true) {
+    
+                    stoptime = false;
+                    console.log(stoptime)
+                    timerCycle();
+                }
+            }
+        }
+
+    },
+    
+    
 }
+
 
 </script>
 <template>
@@ -58,31 +270,38 @@ export default{
 
         </div>
         <div class="userName">
-            Annmarie Ihrke
+            {{fullName}}
         </div>
         <div class="personnelNumber">
-            	817492791
+            	{{employeePersonnelNumber}}
         </div>
     </div>
     
     <div class="tracker">
         <div class="checkIn">
             <span>checkIn:</span>
-            <span> {{checkIn}} </span>
+            <div class="checkInOutput"> {{ currentCheckIn }} </div>
         </div>
         <div class="workTime">
             <span>worked Time:</span>
-            <span></span>
+            <div class="stopwatch" id="stopwatch" >
+                00:00:00
+            </div>
+
         </div>
         <div class="breakTime">
             <span>break Time:</span>
-            <span></span>
+            <span class="breakOutput" v-if="showBreakTime"> 
+                {{this.currentBreakTimeHours = ((checkOutBreakHours - checkInBreakHours))}} 
+                :
+                {{this.currentBreakTimeMinutes = ((checkOutBreakMinutes - checkInBreakMinutes))}} 
+            </span>
         </div>
     </div>
     <div class="button-RowCenter" id="button-RowCenter">
-        <button class="checkIn-Button" @click="CheckIn">Check-In</button>
-        <button class="break-Button" @click="Break">Break</button>
-        <button class="checkOut-Button" @click="CheckOut">Check-Out</button>
+        <button class="checkIn-Button" @click="CheckIn(); startTimer()" id="start">Check-In</button>
+        <button class="break-Button" @click="Break(); toggleTimer()" id="stop">Break</button>
+        <button class="checkOut-Button" @click="CheckOut(); resetTimer()" id="reset">Check-Out</button>
     </div>
 
 </div>
@@ -91,11 +310,13 @@ export default{
 <style>
 .card-container{
     width: 20rem;
+    max-width: 20rem;
     height: 100%;
     border-radius: 1rem;
     margin-right: 1.5rem;
     padding: 0.5rem;
     background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
+    display: flexbox;
 }
 .card-container:hover{
     background: #ffffff;
@@ -136,6 +357,26 @@ export default{
         border-radius: 1.5rem;
         border: none;
 }
-
+.timer{
+    float: right;
+    width: 5rem;
+    height: 2rem;
+    background: #86f075;
+}
+.checkInOutput{
+    float: right;
+    
+}
+.tracker{
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    
+    }
+.stopwatch{
+    float: right;
+}
+.breakOutput{
+    float: right;
+}
 
 </style>
