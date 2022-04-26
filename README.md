@@ -125,6 +125,11 @@ Wir haben Rest-Endpoints für jede Tabelle erstellt:
     * ```api/dailybreaktimes/breakCheckOut(dayBreakTimeId, dailyWorkingsHoursId, breakCheckOutTime)```
         * ```true``` zurückgeben, wenn es funktioniert hat
         * ```false``` zurückgeben, wenn es nicht funktioniert hat
+    * ```api/dailybreaktimes/getBreakTimesByDailyWorkingHoursId(dailyWorkingHoursId)```
+        * Eine Liste von ```DailyBreakTimes``` wird zurückgegeben, wenn Pausenzeiten gefunden werden und ```dailyWorkingHoursId``` richtig ist.
+        * Eine leere Liste wenn keine Pausenzeiten gefunden wurden oder wenn ```dailyWorkingHoursId``` falsch ist.
+
+
 
 Das Datum eines Rest-Endpunktes wird immer als normale Zeichenkette angenommen.
 Beispiel:
@@ -172,6 +177,8 @@ Jedes Repository hat die Stereotypen ```Interface``` und ```JpaRepository```. Je
         * Diese Methode setzt den CheckOutTime (```breakCheckOutTime```) für ein bestimmtest DayBreakTime (```dayBreakTimesId```)
     * ```+ getDailyBreakTimeByDailyWorkingHoursIdAndBreakCheckIn(dailyWorkingHoursId: Long {unique}, breakCheckIn: LocalTime): DailyBreakTimes[..*]{seq}```
         * Diese Methode liefert eine Liste von ```DailyBreakTime``` Entitäten anhand der angegebenen ```dailyWorkingsHoursId``` und ```breakCheckIn```
+    * ```+ getBreakTimesByDailyWorkingHoursId(dailyWorkingHoursId: Long {unique}): DailyBreakTimes[..*]{seq}```
+        * Diese Methode liefert eine Liste von ```DailyBreakTime``` Entitäten anhand der angegebenen ```dailyWorkingsHoursId```.
 
 
 ## 4.4 Services
@@ -198,6 +205,13 @@ Der ```EmployeeService``` hat eine Kompositionsbeziehung mit dem ```HashingStati
         * Diese Methode wird verwendet, wenn ein Mitarbeiter mit seinem Tag fertig ist. Die Methode setzt die ```checkOutTime``` für die gegebene ```dailyWorkingHoursId``` und darüber hinaus auch automatisch die Gesamtarbeitszeit ( ```totalDayWorkTime``` ) und die Gesamtpausenzeit ( ```totalDayBreakTime``` )
     * ``` + getDailyWorkingHoursByEmployeeIdAndDate(employeeId: Long { unique }, searchDate: LocalDate): DailyWorkingHours```
         * Diese Methode gibt eine DailyWorkingHours-Entität mit der angegebenen ```employeeId``` und dem angegebenen Datum ( ```searchDate``` ) zurück
+* ```DailyBreakTimes```
+    * ```+ breakCheckIn(dailyWorkingHoursId: Long { unique }, breakCheckInTimeLocalTime: LocalTime): boolean```
+        * gibt ```true``` zurück, wenn die angegebenen Werte richtig sind und wir das ```checkIn``` machen können und false wenn die Werte falsch sind
+    * ```+ breakCheckOut(dayBreakTimesId: Long { unique }, breakCheckOutTime: LocalTime): boolean```
+        * Diese Methode aktualisiert die Checkout-Zeit ( ```breakCheckOutTime``` ) für eine bestimmte Pause ( ```dayBreakTimesId``` )
+    * ```+ getBreakTimesByDailyWorkingHoursId(dailyWorkingHoursId: Long {unique}): DailyBreakTimes[..*]{seq}```
+        * Diese Methode liefert eine Liste von ```DailyBreakTime``` Entitäten anhand der angegebenen ```dailyWorkingsHoursId```.
 
 ## 4.5 Controllers
 
