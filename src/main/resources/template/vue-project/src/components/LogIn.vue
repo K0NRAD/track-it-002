@@ -8,6 +8,40 @@ var username = employee.username;
 var password = employee.password;
 console.log(username)
 
+const loginMethod = async (usernameInput, passwordInput)=>{
+   const loginRestEndpoint = `http://localhost:8080/api/employee/loginEmployee?username=${usernameInput}&password=${passwordInput}`;
+    
+    const response = await fetch(
+
+        loginRestEndpoint,
+        {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": "*",
+            }
+        }
+    );
+
+            const jsonResponse = await response.json();
+
+            console.log(response);
+            console.log(jsonResponse);
+           if (response){
+            console.log("Hello World");
+             
+             
+             return true;
+            
+            }
+            else{
+                message = "wrong username or password";
+                return false;
+                
+            } 
+}
 
 
 export default{
@@ -23,14 +57,19 @@ export default{
         }
     },
     methods: {
-        LogIn() {
-            console.log("Hi")
+        async LogIn() {
+            
+            let usernameInput = document.getElementById("inputUsername").value;   
+            let passwordInput = document.getElementById("inputPassword").value;
 
-            var usernameInput = document.getElementById("inputUsername").value;   
-            var passwordInput = document.getElementById("inputPassword").value;
+            const loginStatus = await loginMethod(usernameInput, passwordInput);
+            if (loginStatus){
+                this.$router.push('trackIt');
+            }
+            
 
            
-
+        /*
             if ( usernameInput == username && passwordInput == password){
             
              this.$router.push('trackIt')
@@ -39,13 +78,14 @@ export default{
             }
             else{
                 message = "wrong username or password"
-            }
+            }*/
      //       elseif(usernameInput != username && passwordInput == password){
      //           message = "username don't exist"
      //       }
      //       elseif(usernameInput == username && passwordInput != password){
      //            message = "wrong password"
      //       }
+    
                   
         }
     }
