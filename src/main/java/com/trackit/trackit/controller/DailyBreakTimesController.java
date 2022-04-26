@@ -1,5 +1,6 @@
 package com.trackit.trackit.controller;
 
+import com.trackit.trackit.model.DailyBreakTimes;
 import com.trackit.trackit.service.DailyBreakTimesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -54,5 +56,13 @@ public class DailyBreakTimesController {
 
             return false;
         }
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "api/dailybreaktimes/getBreakTimesByDailyWorkingHoursId")
+    public List<DailyBreakTimes> getBreakTimesByDailyWorkingHoursId(
+            @RequestParam(value="dailyWorkingHoursId") Long dailyWorkingHoursId
+    ){
+        return dailyBreakTimesService.getBreakTimesByDailyWorkingHoursId(dailyWorkingHoursId);
     }
 }

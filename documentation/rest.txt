@@ -19,3 +19,4 @@ dailyBreakTimes
 
 api/dailybreaktimes/breakCheckIn(dailyWorkingsHoursId, breakCheckInTime)
 api/dailybreaktimes/breakCheckOut(dayBreakTimeId, dailyWorkingsHoursId, breakCheckOutTime)
+api/dailybreaktimes/getBreakTimesByDailyWorkingHoursId(dailyWorkingHoursId)

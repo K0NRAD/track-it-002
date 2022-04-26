@@ -24,4 +24,7 @@ public interface DailyBreakTimesRepository extends JpaRepository<DailyBreakTimes
 
     @Query(value = "SELECT * FROM daily_break_times WHERE daily_working_hours_id=?1 AND break_check_in=?2", nativeQuery = true)
     List<DailyBreakTimes> getDailyBreakTimeByDailyWorkingHoursIdAndBreakCheckIn(Long dailyWorkingHoursId, LocalTime breakCheckIn);
+
+    @Query(value = "SELECT * FROM daily_break_times WHERE daily_working_hours_id=?1", nativeQuery = true)
+    List<DailyBreakTimes> getBreakTimesByDailyWorkingHoursId(Long dailyWorkingHoursId);
 }
